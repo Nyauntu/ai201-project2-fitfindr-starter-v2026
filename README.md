@@ -100,18 +100,33 @@ $ python app.py ask '...'
 
 ```
 $ python -c "from tools import search_listings; print(search_listings('graphic tee', max_price=30))"
-
+[{'id': 'lst_002', 'title': 'Y2K Baby Tee — Butterfly Print', 'price': 18.0, ...}, {'id': 'lst_006', 'title': 'Graphic Tee — 2003 Tour Bootleg Style', 'price': 24.0, ...}, ... 6 results total, all under $30 and sharing keywords with "graphic tee"]
 ```
 
 ```
-$ python -c "from tools import suggest_outfit; ..."
+$ python -c "from tools import suggest_outfit; from utils.data_loader import get_example_wardrobe, load_listings; print(suggest_outfit(load_listings()[0], get_example_wardrobe()))"
+Here are two outfit combinations using the new vintage Levi's 501 jeans and pieces from your current wardrobe:
 
+Outfit 1: Casual Streetwear & Monochrome Contrast
+- Bottoms: Vintage Levi's 501 Jeans (Medium Wash)
+- Tops: White Ribbed Tank Top
+- Outerwear: Vintage Black Denim Jacket
+- Shoes: Chunky White Sneakers
+- Accessories: Black Crossbody Bag
+
+Why it works: The bright medium wash of the 501s pops against the black denim jacket and white tank, creating a classic, high-contrast streetwear look.
 ```
 
 ```
-$ python -c "from tools import create_fit_card; ..."
+$ python -c "from tools import suggest_outfit; from utils.data_loader import get_empty_wardrobe, load_listings; print(suggest_outfit(load_listings()[0], get_empty_wardrobe()))"
+Pair these vintage Levi's 501s with a crisp white t-shirt or an oversized graphic tee for a classic, effortless look. Layer with a leather jacket or an unbuttoned flannel, and finish the outfit with retro sneakers or ankle boots to lean into the streetwear vibe.
+```
 
 ```
+$ python -c "from tools import create_fit_card; from utils.data_loader import load_listings; print(create_fit_card('jeans and white sneakers', load_listings()[0]))"
+Scored these vintage Levi's 501 jeans in the absolute best medium wash and I'm never taking them off. Found them on depop for just $38.0 and they fit like an absolute dream. Can't wait to style them with my favorite white sneakers for that effortless, off-duty model vibe.
+```
+
 
 ---
 
