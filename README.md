@@ -39,8 +39,8 @@
 
 ## What This Does
 
-<!-- Three or four sentences: what a user asks for, and what they get back. -->
-
+A user describes an item they want for example, "a vintage graphic tee under $30, size M" ,and the agent searches real secondhand listings, figures out what it would pair with from their existing wardrobe, and writes a short caption someone could actually post.
+ If the search comes back empty, it says so instead of guessing.'
 
 
 ---
