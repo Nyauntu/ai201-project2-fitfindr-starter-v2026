@@ -123,24 +123,26 @@ Scored these vintage Levi's 501 jeans in the absolute best medium wash and I'm n
 
 ## How I Used AI
 
-<!-- Two specific moments. What you asked, what came back, what you changed.
-
-     "I used Claude to help me code" is not enough.
-
-     "I gave Claude my search_listings spec. It returned None on no match
-     instead of an empty list, so I changed it" is the level we want. -->
-
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+What I asked for:
+I asked Claude to review the tool specifications I had drafted for all three tools in Milestone 2 and point out anything that looked incorrect or unclear.
+
+What came back:
+Claude flagged that some of my assumptions about the tool inputs and outputs might not match the actual implementation. In particular, I had initially treated suggest_outfit as returning structured outfit data and create_fit_card as taking an outfit dictionary.
+What I changed:
+I went back to tools.py and checked the actual function signatures and return values. I found that suggest_outfit returns a plain string and create_fit_card takes that string directly. I then revised my specifications to reflect the actual code rather than relying on my initial assumptions.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+What I asked for:
+I tested create_fit_card to check whether it satisfied Criterion 4 by producing different wording across repeated runs. I asked Claude to help me diagnose the result when my test did not behave as expected.
+
+What came back:
+When I ran the same command twice, I got exactly the same caption both times. Claude helped me investigate why the output was identical.
+
+What I changed:
+I checked the implementation and identified that the cache in generate.py was returning a previously saved response because the prompt and temperature were the same. I cleared the cache and reran the test. The captions were then different across runs, confirming that the tool was actually generating varied outputs.
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
