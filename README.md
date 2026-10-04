@@ -84,17 +84,8 @@ A user describes an item they want for example, "a vintage graphic tee under $30
 
 ## Sample Run
 
-<!-- Two things go here.
-
-     1. One FULL query and its output, pasted as text.
-     2. Your three per-tool terminal tests — the command and what it printed. -->
-
 **One full query**
-
-```
-$ python app.py ask '...'
-
-```
+$ python agent.py === A query the data can match === found: Y2K Baby Tee — Butterfly Print — $18.0 on depop outfit: [two outfit suggestions using wardrobe pieces, naming specific items] fit card: Scored this absolute dream of a Y2K baby tee with the cutest butterfly print for just $18 on depop! Obsessed with how it looks styled with baggy denim for that ultimate retro streetwear vibe. === A query it can't === stopped: No listings matched your search. Try raising your price limit, removing the size filter, or using broader keywords. fit_card is None
 
 **The three tools, tested one at a time**
 
