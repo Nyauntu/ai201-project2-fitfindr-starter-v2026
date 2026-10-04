@@ -44,62 +44,41 @@ A user describes an item they want for example, "a vintage graphic tee under $30
 
 
 ---
-
 ## Tool Inventory
-
-<!-- Four lines per tool. This is worth 2 points and it's the single most
-     common place students lose them.
-
-     "Returns a list" earns NOTHING. The description has to say what is IN
-     the list.
-
-     The empty case isn't optional either — it's the thing your loop branches
-     on, and if you don't decide it here you'll discover it as a crash in
-     Milestone 5. -->
 
 ### `search_listings`
 
-- **What it does:**
-- **Inputs:** <!-- name and type each: `max_price` (float), not "a price" -->
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Searches the listings data for items matching free-text keywords, optionally filtered by size and a maximum price, and returns the best matches ranked by keyword overlap.
+- **Inputs:** `description` (str) — keywords like "vintage graphic tee"; `size` (str | None) — matched case-insensitively against whole size tokens, not raw substrings (so "M" matches "S/M" but NOT "US 9" or "XL"); `max_price` (float | None) — maximum price, inclusive.
+- **Returns:** A list of matching listing dicts (id, title, description, category, style_tags, size, condition, price, colors, brand, platform), best match first, capped at `config.SEARCH_RESULT_LIMIT`.
+- **When it has nothing:** Returns an empty list (`[]`) — never None, never an exception.
 
 ### `suggest_outfit`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Given one new item and the user's wardrobe, asks the model for one or two outfit pairings — or general styling advice if the wardrobe is empty.
+- **Inputs:** `new_item` (dict) — a listing dict, the item under consideration; `wardrobe` (dict) — a dict with an `items` key holding a list of wardrobe item dicts (possibly empty).
+- **Returns:** A non-empty string containing the model's outfit suggestion(s).
+- **When it has nothing:** If `wardrobe["items"]` is empty, still returns a non-empty string — general styling advice for the item alone, not an empty string.
 
 ### `create_fit_card`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Writes a short, postable caption (2-4 sentences) about the item and its suggested outfit, calling the model.
+- **Inputs:** `outfit` (str) — the suggestion string returned by `suggest_outfit`; `new_item` (dict) — the listing dict for the item.
+- **Returns:** A string caption mentioning the item, its price, and platform once each, specific about the vibe, and varying across calls rather than identical every time.
+- **When it has nothing:** If `outfit` is empty or whitespace-only, returns a descriptive fallback message instead of raising.
 
 ---
 
 ## Planning Loop
 
-<!-- Your branch rule, stated as a rule — the condition AND both paths — plus
-     the file and function that holds it.
-
-     Like this:
-       "If search_listings returns an empty list, put a message in the session
-        and stop. Otherwise take the first result and go to suggest_outfit."
-        — agent.py::run_agent
-
-     The grader checks your code against what you claim here, so the file and
-     function have to be real. -->
-
-**Branch rule:**
+**Branch rule:** If `search_listings` returns an empty list, put a specific message in `session["error"]` explaining what the user could change (e.g. loosen the price or size filter), and stop — do NOT call `suggest_outfit`. Otherwise, select the first result as `session["selected_item"]` and continue to `suggest_outfit`, then `create_fit_card`.
 
 **Where it lives:** `agent.py::run_agent`
 
-**How the query is parsed:** <!-- regex, string splitting, or asking the model — say which -->
+**How the query is parsed:** Regex — extract a `$price` pattern for `max_price`, match known size tokens (XS/S/M/L/XL/XXL, or W##/US # patterns) for `size`, and use the remaining text as `description` for keyword scoring.
 
-**What moves through the session:** <!-- which fields, in what order -->
+**What moves through the session:** `session["parsed"]` → `session["search_results"]` → `session["selected_item"]` → `session["outfit_suggestion"]` → `session["fit_card"]`, with `session["error"]` short-circuiting everything after it if set early.
+
 
 ---
 
